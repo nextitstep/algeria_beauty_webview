@@ -76,7 +76,7 @@ class _WebViewContainerState extends State<WebViewContainer> {
   void initState() {
     super.initState();
     // Set the app to full screen mode by hiding system UI
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+   // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
