@@ -43,8 +43,8 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
 
-        manifestPlaceholders["facebook_app_id"] = "YOUR_FB_APP_ID"
-        manifestPlaceholders["facebook_client_token"] = "YOUR_CLIENT_TOKEN"
+        manifestPlaceholders["facebook_app_id"] = "4063378133896863"
+        manifestPlaceholders["facebook_client_token"] = "0899c2b0c62bcca1e04e22d056360d38"
     }
 
     signingConfigs {
@@ -73,3 +73,6 @@ flutter {
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 }
+
+
+      

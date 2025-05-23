@@ -4,6 +4,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:facebook_app_events/facebook_app_events.dart';
 import 'dart:async';
 import 'services/notification_service.dart';
+import 'dart:developer'; // Optional: for better logging
 
 // Initialize Facebook App Events
 final facebookAppEvents = FacebookAppEvents();
@@ -20,10 +21,19 @@ void main() async {
   await NotificationService().initialize();
 
   // Log app launch event
-  facebookAppEvents.logEvent(
-    name: 'fb_mobile_app_launched',
-    parameters: {'time': DateTime.now().toIso8601String()},
-  );
+  try {
+    await facebookAppEvents.logEvent(
+      name: 'fb_mobile_app_launched',
+      parameters: {'time': DateTime.now().toIso8601String()},
+    );
+    print('Facebook event logged successfully.');
+    // Or use:
+    log('Facebook event logged successfully.');
+  } catch (error, stackTrace) {
+    print('Error logging Facebook event: $error');
+    // Or use:
+    log('Error logging Facebook event', error: error, stackTrace: stackTrace);
+  }
 
   runApp(const MyApp());
 }
