@@ -16,6 +16,10 @@ class NotificationService {
 
   NotificationService._internal();
 
+  void subscribeToTopic() async {
+    await _firebaseMessaging.subscribeToTopic("sales");
+  }
+
   Future<void> initialize() async {
     // Request permission
     await _firebaseMessaging.requestPermission(
@@ -25,8 +29,9 @@ class NotificationService {
     );
 
     // Initialize local notifications
-    const initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+    const initializationSettingsAndroid = AndroidInitializationSettings(
+      '@mipmap/ic_launcher',
+    );
     const initializationSettingsIOS = DarwinInitializationSettings();
     const initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
@@ -52,7 +57,7 @@ class NotificationService {
       // Send token to your backend
       print('FCM Token refreshed: $token');
     });
-
+    NotificationService().subscribeToTopic();
     // Handle foreground messages
     FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
 
@@ -61,7 +66,8 @@ class NotificationService {
   }
 
   // Add a stream controller to handle URL navigation
-  static final StreamController<String> _urlStreamController = StreamController<String>.broadcast();
+  static final StreamController<String> _urlStreamController =
+      StreamController<String>.broadcast();
   static Stream<String> get urlStream => _urlStreamController.stream;
 
   Future<void> _handleForegroundMessage(RemoteMessage message) async {
