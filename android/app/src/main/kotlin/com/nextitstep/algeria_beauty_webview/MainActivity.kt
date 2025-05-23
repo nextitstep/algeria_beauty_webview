@@ -1,4 +1,4 @@
-package com.example.algeria_beauty_webview
+package com.nextitstep.algeria_beauty_webview
 
 import io.flutter.embedding.android.FlutterActivity
 

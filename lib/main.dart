@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:facebook_app_events/facebook_app_events.dart';
 import 'dart:async';
 import 'package:flutter/services.dart'; // For hiding system UI
 
+// Initialize Facebook App Events
+final facebookAppEvents = FacebookAppEvents();
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Log app launch event
+  facebookAppEvents.logEvent(
+    name: 'fb_mobile_app_launched',
+    parameters: {
+      'time': DateTime.now().toIso8601String(),
+    },
+  );
   runApp(const MyApp());
 }
 

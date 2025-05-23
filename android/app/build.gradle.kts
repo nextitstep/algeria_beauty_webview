@@ -15,7 +15,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.example.algeria_beauty_webview"
+    namespace = "com.nextitstep.algeria_beauty_webview"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -37,6 +37,9 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        manifestPlaceholders["facebook_app_id"] = "YOUR_FB_APP_ID"
+        manifestPlaceholders["facebook_client_token"] = "YOUR_CLIENT_TOKEN"
     }
 
     signingConfigs {

@@ -1,0 +1,2 @@
+-keep class com.facebook.** { *; }
+-keep interface com.facebook.** { *; }
