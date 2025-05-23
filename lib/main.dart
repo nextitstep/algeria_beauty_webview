@@ -1,21 +1,30 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:facebook_app_events/facebook_app_events.dart';
 import 'dart:async';
-import 'package:flutter/services.dart'; // For hiding system UI
+import 'services/notification_service.dart';
 
 // Initialize Facebook App Events
 final facebookAppEvents = FacebookAppEvents();
 
-void main() {
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase
+  await Firebase.initializeApp();
+
+
+  // Initialize notification service
+  await NotificationService().initialize();
+
   // Log app launch event
   facebookAppEvents.logEvent(
     name: 'fb_mobile_app_launched',
-    parameters: {
-      'time': DateTime.now().toIso8601String(),
-    },
+    parameters: {'time': DateTime.now().toIso8601String()},
   );
+
   runApp(const MyApp());
 }
 
@@ -83,39 +92,48 @@ class _WebViewContainerState extends State<WebViewContainer> {
   late final WebViewController _controller;
   bool _isLoading = true;
   bool _hasError = false;
+  late StreamSubscription _urlSubscription;
 
   @override
   void initState() {
     super.initState();
-    // Set the app to full screen mode by hiding system UI
-   // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
-    _controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(Colors.white)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onPageStarted: (url) {
-            setState(() {
-              _isLoading = true;
-              _hasError = false;
-            });
-          },
-          onPageFinished: (url) async {
-            setState(() {
-              _isLoading = false;
-              _hasError = false;
-            });
-          },
-          onWebResourceError: (error) {
-            setState(() {
-              _isLoading = false;
-              _hasError = true;
-            });
-          },
-        ),
-      )
-      ..loadRequest(Uri.parse("https://algeriabeauty.shop/"));
+    // Subscribe to URL changes from notifications
+    _urlSubscription = NotificationService.urlStream.listen((url) {
+      if (url.isNotEmpty) {
+        _controller.loadRequest(Uri.parse(url));
+      }
+    });
+    // Set the app to full screen mode by hiding system UI
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+    _controller =
+        WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..setBackgroundColor(Colors.white)
+          ..setNavigationDelegate(
+            NavigationDelegate(
+              onPageStarted: (url) {
+                setState(() {
+                  _isLoading = true;
+                  _hasError = false;
+                });
+              },
+              onPageFinished: (url) async {
+                setState(() {
+                  _isLoading = false;
+                  _hasError = false;
+                });
+              },
+              onWebResourceError: (error) {
+                setState(() {
+                  _isLoading = false;
+                  _hasError = true;
+                });
+              },
+            ),
+          )
+          ..loadRequest(Uri.parse("https://algeriabeauty.shop/"));
   }
 
   Future<void> _reloadPage() async {
@@ -133,7 +151,9 @@ class _WebViewContainerState extends State<WebViewContainer> {
     } else {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const SplashScreen()), // Navigate back to splash screen
+        MaterialPageRoute(
+          builder: (context) => const SplashScreen(),
+        ), // Navigate back to splash screen
       );
       return Future.value(true); // Allows exiting the app when on splash screen
     }
@@ -187,7 +207,10 @@ class _WebViewContainerState extends State<WebViewContainer> {
                       const SizedBox(height: 10),
                       const Text(
                         "Connection Error",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(height: 10),
                       const Text(
@@ -212,8 +235,7 @@ class _WebViewContainerState extends State<WebViewContainer> {
 
   @override
   void dispose() {
-    // Reset the UI mode when the app is disposed
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+    _urlSubscription.cancel();
     super.dispose();
   }
 }

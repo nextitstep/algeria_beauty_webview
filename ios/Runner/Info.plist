@@ -53,14 +53,23 @@
 </dict>
 
 <dict>
-    <!-- ... existing code ... -->
-    <key>FacebookAppID</key>
-    <string>YOUR_FB_APP_ID</string>
-    <key>FacebookClientToken</key>
-    <string>YOUR_CLIENT_TOKEN</string>
-    <key>FacebookAutoLogAppEventsEnabled</key>
-    <true/>
-    <key>FacebookAdvertiserIDCollectionEnabled</key>
-    <true/>
+    <!-- Add these entries -->
+    <key>FirebaseAppDelegateProxyEnabled</key>
+    <false/>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>fetch</string>
+        <string>remote-notification</string>
+    </array>
+</dict>
+</plist>
+<key>FacebookAppID</key>
+<string>YOUR_FB_APP_ID</string>
+<key>FacebookClientToken</key>
+<string>YOUR_CLIENT_TOKEN</string>
+<key>FacebookAutoLogAppEventsEnabled</key>
+<true/>
+<key>FacebookAdvertiserIDCollectionEnabled</key>
+<true/>
 </dict>
 </plist>

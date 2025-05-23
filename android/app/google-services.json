@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "118878690268",
+    "firebase_url": "https://nextcommerce-01-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "nextcommerce-01",
+    "storage_bucket": "nextcommerce-01.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:118878690268:android:be3092e3b0e78d841f0d19",
+        "android_client_info": {
+          "package_name": "com.nextitstep.algeria_beauty_webview"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD90rU5ecYSXirDL4cLbYBQx_L8xaNZ7ww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:118878690268:android:d6379677660cf9a01f0d19",
+        "android_client_info": {
+          "package_name": "com.nextitstep.nextcommercesmssender"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD90rU5ecYSXirDL4cLbYBQx_L8xaNZ7ww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
